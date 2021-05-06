@@ -1,0 +1,19 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NewAgent : Agent
+{
+new void Start()
+    {
+        base.Start();
+
+       //example:
+       // Invoke("FunctionName", Random.Range(10, 20));
+    }
+
+    //void FunctionName()
+    //{
+    //    beliefs.ModifyState("condition", 0);
+    //}
+}
