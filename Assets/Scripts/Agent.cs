@@ -132,4 +132,11 @@ public class Agent : MonoBehaviour
         }
 
     }
+
+    public void StopAction()
+    {
+        currentAction.running = false;
+        currentAction = null;
+        actionQueue = null;
+    }
 }

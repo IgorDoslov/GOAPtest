@@ -33,8 +33,8 @@ public class Doctor : Agent
         Debug.Log(dist);
         if (dist <= 5f)
         {
-            
-            beliefs.ModifyState("Run", 1);
+            StopAction();
+            beliefs.AddBeliefState("Run");
         }
         else
         {

@@ -23,9 +23,14 @@ public class WorldStates
         return states.ContainsKey(key);
     }
 
-    public void AddState(string key, int value)
+    void AddState(string key, int value)
     {
         states.Add(key, value);
+    }
+
+    public void AddBeliefState(string key)
+    {
+        states.Add(key, 0);
     }
 
     public void ModifyState(string key, int value)
