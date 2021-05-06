@@ -37,8 +37,8 @@ public class WorldStates
     {
         if (states.ContainsKey(key))
         {
-            states[key] += value;
-            if (states[key] <= 0)
+            states[key] += value; // modify the value of that state by the amount in value
+            if (states[key] <= 0) // if the state has no values left, remove it
                 RemoveState(key);
         }
         else

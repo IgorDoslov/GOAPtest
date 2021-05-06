@@ -36,14 +36,6 @@ public class Planner
 {
     public Queue<Action> Plan(List<Action> a_actions, Dictionary<string, int> a_goal, WorldStates a_beliefstates)
     {
-        //List<Action> usableActions = new List<Action>();
-        //foreach (Action a in actions)
-        //{
-        //    if (a.IsAchievable())
-        //    {
-        //        actions.Add(a);
-        //    }
-        //}
 
         List<Node> leaves = new List<Node>();
         Node start = new Node(null, 0, World.Instance.GetWorld().Getstates(), a_beliefstates.Getstates(), null);
@@ -69,14 +61,14 @@ public class Planner
         }
 
         List<Action> result = new List<Action>();
-        Node n = cheapest;
-        while (n != null)
+        //Node n = cheapest;
+        while (cheapest != null)
         {
-            if (n.action != null)
+            if (cheapest.action != null)
             {
-                result.Insert(0, n.action);
+                result.Insert(0, cheapest.action);
             }
-            n = n.parent;
+            cheapest = cheapest.parent;
         }
 
         Queue<Action> queue = new Queue<Action>();
