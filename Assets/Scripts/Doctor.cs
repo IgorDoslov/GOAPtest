@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GOAP;
 
 public class Doctor : Agent
 {
@@ -34,6 +35,7 @@ public class Doctor : Agent
         if (dist <= 5f)
         {
             StopAction();
+            if(!beliefs.HasState("Run"))
             beliefs.AddBeliefState("Run");
         }
         else
