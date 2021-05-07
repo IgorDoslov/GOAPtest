@@ -6,10 +6,10 @@ using GOAP;
 public class GetPatient : Action
 {
     GameObject resource;
-    public override bool PrePerform()
+    public override bool EnterAction()
     {
-        target = World.Instance.GetQueue("patients").RemoveResource();
-        if (target == null)
+        gameObjTarget = World.Instance.GetQueue("patients").RemoveResource();
+        if (gameObjTarget == null)
             return false;
 
         resource = World.Instance.GetQueue("cubicles").RemoveResource();
@@ -19,20 +19,20 @@ public class GetPatient : Action
         }
         else
         {
-            World.Instance.GetQueue("patients").AddResource(target);
-            target = null;
+            World.Instance.GetQueue("patients").AddResource(gameObjTarget);
+            gameObjTarget = null;
             return false;
         }
-        World.Instance.GetWorld().ModifyState("FreeCubicle", -1);
+        World.Instance.ModifyState("FreeCubicle", -1);
         return true;
     }
 
-    public override bool PostPerform()
+    public override bool ExitAction()
     {
-        World.Instance.GetWorld().ModifyState("Waiting", -1);
-        if(target)
+        World.Instance.ModifyState("Waiting", -1);
+        if(gameObjTarget)
         {
-            target.GetComponent<Agent>().inventory.AddItem(resource);
+            gameObjTarget.GetComponent<Agent>().inventory.AddItem(resource);
         }
         return true;
     }

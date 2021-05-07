@@ -9,25 +9,26 @@ namespace GOAP
     {
         public string actionName = "Action";
         public float cost = 1.0f;
-        public GameObject target;
+        public GameObject gameObjTarget;
+        public Vector3 vec3Destination = Vector3.zero;
         public string targetTag;
         public float duration = 0;
         public WorldState[] preConditions;
         public WorldState[] afterEffects;
         public NavMeshAgent navAgent;
 
-        public Dictionary<string, int> preconditionsDic;
-        public Dictionary<string, int> effectsDic;
+        public Dictionary<string, WorldState> preconditionsDic;
+        public Dictionary<string, WorldState> effectsDic;
 
         public Inventory inventory;
-        public WorldStates beliefs;
+        public Dictionary<string, WorldState> beliefs;
 
         public bool running = false;
 
         public Action()
         {
-            preconditionsDic = new Dictionary<string, int>();
-            effectsDic = new Dictionary<string, int>();
+            preconditionsDic = new Dictionary<string, WorldState>();
+            effectsDic = new Dictionary<string, WorldState>();
         }
 
         public void Awake()
@@ -37,13 +38,13 @@ namespace GOAP
             if (preConditions != null)
                 foreach (WorldState w in preConditions)
                 {
-                    preconditionsDic.Add(w.key, w.value);
+                    preconditionsDic.Add(w.key, new WorldState(w.key,w.value));
                 }
 
             if (afterEffects != null)
                 foreach (WorldState w in afterEffects)
                 {
-                    effectsDic.Add(w.key, w.value);
+                    effectsDic.Add(w.key, new WorldState(w.key, w.value));
                 }
 
             inventory = GetComponent<Agent>().inventory;
@@ -55,9 +56,9 @@ namespace GOAP
             return true;
         }
 
-        public bool IsAchievableGiven(Dictionary<string, int> conditions)
+        public bool IsAchievableGiven(Dictionary<string, WorldState> conditions)
         {
-            foreach (KeyValuePair<string, int> p in preconditionsDic)
+            foreach (KeyValuePair<string, WorldState> p in preconditionsDic)
             {
                 if (!conditions.ContainsKey(p.Key))
                 {
@@ -67,8 +68,8 @@ namespace GOAP
             return true;
         }
 
-        public abstract bool PrePerform();
-        public abstract bool PostPerform();
+        public abstract bool EnterAction();
+        public abstract bool ExitAction();
 
 
     }

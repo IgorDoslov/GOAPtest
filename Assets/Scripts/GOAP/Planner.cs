@@ -7,11 +7,11 @@ namespace GOAP
 {
     public class Planner
     {
-        public Queue<Action> Plan(List<Action> a_actions, Dictionary<string, int> a_goal, WorldStates a_beliefstates)
+        public Queue<Action> Plan(List<Action> a_actions, Dictionary<string, int> a_goal, Dictionary<string, WorldState> a_beliefstates)
         {
 
             List<Node> leaves = new List<Node>();
-            Node start = new Node(null, 0, World.Instance.GetWorld().Getstates(), a_beliefstates.Getstates(), null);
+            Node start = new Node(null, 0, World.Instance.Getstates(), a_beliefstates, null);
 
             bool success = BuildGraph(start, leaves, a_actions, a_goal);
 
@@ -66,8 +66,8 @@ namespace GOAP
             {
                 if (action.IsAchievableGiven(a_parent.state))
                 {
-                    Dictionary<string, int> currentState = new Dictionary<string, int>(a_parent.state);
-                    foreach (KeyValuePair<string, int> effect in action.effectsDic)
+                    Dictionary<string, WorldState> currentState = new Dictionary<string, WorldState>(a_parent.state);
+                    foreach (KeyValuePair<string, WorldState> effect in action.effectsDic)
                     {
                         if (!currentState.ContainsKey(effect.Key))
                             currentState.Add(effect.Key, effect.Value);
@@ -93,7 +93,7 @@ namespace GOAP
         }
 
 
-        private bool GoalAchieved(Dictionary<string, int> a_goal, Dictionary<string, int> a_state)
+        private bool GoalAchieved(Dictionary<string, int> a_goal, Dictionary<string, WorldState> a_state)
         {
             foreach (KeyValuePair<string, int> g in a_goal)
             {

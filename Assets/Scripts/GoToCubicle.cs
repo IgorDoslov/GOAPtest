@@ -6,20 +6,20 @@ using GOAP;
 
 public class GoToCubicle : Action
 {
-    public override bool PrePerform()
+    public override bool EnterAction()
     {
-        target = inventory.FindItemWithTag("Cubicle");
-        if (target == null)
+        gameObjTarget = inventory.FindItemWithTag("Cubicle");
+        if (gameObjTarget == null)
             return false;
         return true;
     }
 
-    public override bool PostPerform()
+    public override bool ExitAction()
     {
-        World.Instance.GetWorld().ModifyState("TreatingPatient", 1);
-        World.Instance.GetQueue("cubicles").AddResource(target);
-        inventory.RemoveItem(target);
-        World.Instance.GetWorld().ModifyState("FreeCubicle", 1);
+        World.Instance.ModifyState("TreatingPatient", 1);
+        World.Instance.GetQueue("cubicles").AddResource(gameObjTarget);
+        inventory.RemoveItem(gameObjTarget);
+        World.Instance.ModifyState("FreeCubicle", 1);
         return true;
     }
 }

@@ -5,7 +5,7 @@ using GOAP;
 
 public class Nurse : Agent
 {
-    
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -19,13 +19,15 @@ public class Nurse : Agent
 
     void GetTired()
     {
-        beliefs.ModifyState("exhausted", 0);
+        if (!beliefs.ContainsKey("exhausted"))
+            beliefs.Add("exhausted", new WorldState("exhausted", 0));
         Invoke("GetTired", Random.Range(10, 20));
     }
 
     void NeedRelief()
     {
-        beliefs.ModifyState("busting", 0);
+        if (!beliefs.ContainsKey("busting"))
+            beliefs.Add("busting", new WorldState("busting", 0));
         Invoke("NeedRelief", Random.Range(2, 5));
     }
 

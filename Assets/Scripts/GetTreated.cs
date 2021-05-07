@@ -5,19 +5,21 @@ using GOAP;
 
 public class GetTreated : Action
 {
-    public override bool PrePerform()
+    public override bool EnterAction()
     {
-        target = inventory.FindItemWithTag("Cubicle");
-        if (target == null)
+        gameObjTarget = inventory.FindItemWithTag("Cubicle");
+        if (gameObjTarget == null)
             return false;
         return true;
     }
 
-    public override bool PostPerform()
+    public override bool ExitAction()
     {
-        World.Instance.GetWorld().ModifyState("Treated", 1);
-        beliefs.ModifyState("isCured", 1);
-        inventory.RemoveItem(target);
+        World.Instance.ModifyState("Treated", 1);
+        if (beliefs.TryGetValue("isCured", out WorldState state))
+            state.value += 1;
+       // beliefs.ModifyState("isCured", 1);
+        inventory.RemoveItem(gameObjTarget);
         return true;
     }
 }

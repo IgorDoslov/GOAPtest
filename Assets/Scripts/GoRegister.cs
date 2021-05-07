@@ -5,14 +5,15 @@ using GOAP;
 
 public class GoRegister : Action
 {
-    public override bool PrePerform()
+    public override bool EnterAction()
     {
         return true;
     }
 
-    public override bool PostPerform()
+    public override bool ExitAction()
     {
-        beliefs.ModifyState("atHospital", 0);
+        if (!beliefs.ContainsKey("atHospital"))
+            beliefs.Add("atHospital", new WorldState("atHospital", 0));
         return true;
     }
 }

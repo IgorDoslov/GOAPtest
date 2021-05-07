@@ -5,22 +5,22 @@ using GOAP;
 
 public class CleanPoo : Action
 {
-    public override bool PrePerform()
+    public override bool EnterAction()
     {
-        target = World.Instance.GetQueue("poos").RemoveResource();
-        if (target == null)
+        gameObjTarget = World.Instance.GetQueue("poos").RemoveResource();
+        if (gameObjTarget == null)
         {
             return false;
         }
-        inventory.AddItem(target);
-        World.Instance.GetWorld().ModifyState("FreePoo", -1);
+        inventory.AddItem(gameObjTarget);
+        World.Instance.ModifyState("FreePoo", -1);
         return true;
     }
 
-    public override bool PostPerform()
+    public override bool ExitAction()
     {
-        inventory.RemoveItem(target);
-        Destroy(target);
+        inventory.RemoveItem(gameObjTarget);
+        Destroy(gameObjTarget);
         return true;
     }
 }

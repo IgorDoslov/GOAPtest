@@ -31,7 +31,7 @@ namespace GOAP
         public List<Action> actions = new List<Action>();
         public Dictionary<SubGoal, int> goalsDic = new Dictionary<SubGoal, int>();
         public Inventory inventory = new Inventory();
-        public WorldStates beliefs = new WorldStates();
+        public Dictionary<string, WorldState> beliefs = new Dictionary<string, WorldState>();
         public float distanceToTargetThreshold = 2f;
         public Goal[] myGoals;
         Planner planner;
@@ -39,7 +39,6 @@ namespace GOAP
         public Action currentAction;
         SubGoal currentGoal;
 
-        Vector3 destination = Vector3.zero;
 
         // Start is called before the first frame update
         public virtual void Start()
@@ -59,7 +58,7 @@ namespace GOAP
         void CompleteAction()
         {
             currentAction.running = false;
-            currentAction.PostPerform();
+            currentAction.ExitAction();
             invoked = false;
         }
 
@@ -68,7 +67,7 @@ namespace GOAP
         {
             if (currentAction != null && currentAction.running)
             {
-                float distToTarget = Vector3.Distance(destination, transform.position);
+                float distToTarget = Vector3.Distance(currentAction.vec3Destination, transform.position);
                 if (distToTarget < distanceToTargetThreshold)
                 {
                     if (!invoked)
@@ -107,24 +106,24 @@ namespace GOAP
             // sets our action and gets the target
             if (actionQueue != null && actionQueue.Count > 0)
             {
-                currentAction = actionQueue.Dequeue();
-                if (currentAction.PrePerform())
+                currentAction = actionQueue.Dequeue(); // remove the action from the queue and make it the current action
+                if (currentAction.EnterAction())
                 {
-                    if (currentAction.target == null && currentAction.targetTag != "")
-                        currentAction.target = GameObject.FindWithTag(currentAction.targetTag);
+                    if (currentAction.gameObjTarget == null && currentAction.targetTag != "") // Doesnt have a target but has a target tag
+                        currentAction.gameObjTarget = GameObject.FindWithTag(currentAction.targetTag); // Set the target to what is tagged
 
-                    if (currentAction.target != null)
+                    if (currentAction.gameObjTarget != null) // if I have a target
                     {
                         currentAction.running = true;
 
-                        destination = currentAction.target.transform.position;
-                        Transform dest = currentAction.target.transform.Find("Destination");
+                        currentAction.vec3Destination = currentAction.gameObjTarget.transform.position;
+                        Transform dest = currentAction.gameObjTarget.transform.Find("Destination");
                         if (dest != null)
                         {
-                            destination = dest.position;
+                            currentAction.vec3Destination = dest.position;
                         }
 
-                        currentAction.navAgent.SetDestination(destination);
+                        currentAction.navAgent.SetDestination(currentAction.vec3Destination);
                     }
                 }
                 else

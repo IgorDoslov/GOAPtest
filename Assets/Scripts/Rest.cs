@@ -5,14 +5,14 @@ using GOAP;
 
 public class Rest : Action
 {
-    public override bool PrePerform()
+    public override bool EnterAction()
     {
         return true;
     }
 
-    public override bool PostPerform()
+    public override bool ExitAction()
     {
-        beliefs.RemoveState("exhausted");
+        beliefs.Remove("exhausted");
         return true;
     }
 }

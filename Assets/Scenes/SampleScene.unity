@@ -430,7 +430,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 70469605547349582, guid: 8b947d785bb0fbc43816deaaf776cb1b, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 70469605547349582, guid: 8b947d785bb0fbc43816deaaf776cb1b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -768,7 +768,6 @@ GameObject:
   - component: {fileID: 457216276}
   - component: {fileID: 457216275}
   - component: {fileID: 457216274}
-  - component: {fileID: 457216273}
   m_Layer: 0
   m_Name: Waiting Area
   m_TagString: WaitingArea
@@ -776,18 +775,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &457216273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 457216272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 062923684311156439ac36ad3900dda3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!23 &457216274
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -885,7 +872,6 @@ Transform:
   - {fileID: 920527088}
   - {fileID: 865222941}
   - {fileID: 667718389}
-  - {fileID: 1866306868}
   - {fileID: 890597255}
   m_Father: {fileID: 0}
   m_RootOrder: 17
@@ -1026,6 +1012,7 @@ Transform:
   m_LocalScale: {x: 2, y: 1, z: 2}
   m_Children:
   - {fileID: 109377235}
+  - {fileID: 1866306868}
   m_Father: {fileID: 554605318}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1533,6 +1520,68 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 37.747, y: 0, z: 0}
+--- !u!1 &1063474572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1063474574}
+  - component: {fileID: 1063474573}
+  m_Layer: 0
+  m_Name: World
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1063474573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063474572}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd8d612f013ce8c4298b9afead929d1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceQueues:
+  - gameObjectsWithTag: []
+    tag: Patients
+    modState: 
+  - gameObjectsWithTag: []
+    tag: Cubicle
+    modState: FreeCubicle
+  - gameObjectsWithTag: []
+    tag: Office
+    modState: FreeOffice
+  - gameObjectsWithTag: []
+    tag: Toilet
+    modState: FreeToilet
+  - gameObjectsWithTag: []
+    tag: Wee
+    modState: FreeWee
+  - gameObjectsWithTag: []
+    tag: Poo
+    modState: FreePoo
+--- !u!4 &1063474574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063474572}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1133384636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1584,19 +1633,19 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 554605318}
+    m_TransformParent: {fileID: 667718389}
     m_Modifications:
     - target: {fileID: 70469605547349582, guid: 8b947d785bb0fbc43816deaaf776cb1b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.510723
+      value: 3.4302244
       objectReference: {fileID: 0}
     - target: {fileID: 70469605547349582, guid: 8b947d785bb0fbc43816deaaf776cb1b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.7058067
+      value: -0.4999981
       objectReference: {fileID: 0}
     - target: {fileID: 70469605547349582, guid: 8b947d785bb0fbc43816deaaf776cb1b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.811594
+      value: -2.4010916
       objectReference: {fileID: 0}
     - target: {fileID: 70469605547349582, guid: 8b947d785bb0fbc43816deaaf776cb1b, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1616,7 +1665,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 70469605547349582, guid: 8b947d785bb0fbc43816deaaf776cb1b, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 70469605547349582, guid: 8b947d785bb0fbc43816deaaf776cb1b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1629,6 +1678,14 @@ PrefabInstance:
     - target: {fileID: 70469605547349582, guid: 8b947d785bb0fbc43816deaaf776cb1b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 70469605547349582, guid: 8b947d785bb0fbc43816deaaf776cb1b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 70469605547349582, guid: 8b947d785bb0fbc43816deaaf776cb1b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 70469605547349618, guid: 8b947d785bb0fbc43816deaaf776cb1b, type: 3}
       propertyPath: m_Name
@@ -1733,7 +1790,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: Rest
   cost: 1
-  target: {fileID: 0}
+  gameObjTarget: {fileID: 0}
+  vec3Destination: {x: 0, y: 0, z: 0}
   targetTag: Lounge
   duration: 2
   preConditions:
@@ -1890,7 +1948,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: Research
   cost: 1
-  target: {fileID: 0}
+  gameObjTarget: {fileID: 0}
+  vec3Destination: {x: 0, y: 0, z: 0}
   targetTag: Office
   duration: 5
   preConditions:
@@ -1915,7 +1974,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: Go To Toilet
   cost: 1
-  target: {fileID: 0}
+  gameObjTarget: {fileID: 0}
+  vec3Destination: {x: 0, y: 0, z: 0}
   targetTag: Toilet
   duration: 2
   preConditions:
@@ -1942,7 +2002,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: Action
   cost: 1
-  target: {fileID: 0}
+  gameObjTarget: {fileID: 0}
+  vec3Destination: {x: 0, y: 0, z: 0}
   targetTag: 
   duration: 0
   preConditions:
@@ -2542,6 +2603,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 352052380760787216, guid: 2a904a7d75e18c541b38ad503a5395d9, type: 3}
       propertyPath: m_Name
+      value: Nurse
+      objectReference: {fileID: 0}
+    - target: {fileID: 352052380760787216, guid: 2a904a7d75e18c541b38ad503a5395d9, type: 3}
+      propertyPath: m_TagString
       value: Nurse
       objectReference: {fileID: 0}
     - target: {fileID: 352052380760787220, guid: 2a904a7d75e18c541b38ad503a5395d9, type: 3}

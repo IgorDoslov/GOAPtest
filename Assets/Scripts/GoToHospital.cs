@@ -6,12 +6,13 @@ using GOAP;
 
 public class GoToHospital : Action
 {
-    public override bool PrePerform()
+    public override bool EnterAction()
     {
+       
         return true;
     }
 
-    public override bool PostPerform()
+    public override bool ExitAction()
     {
         return true;
     }

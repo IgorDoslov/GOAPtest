@@ -7,10 +7,10 @@ public class Run : Action
 {
     public GameObject objToRunTOwards;
      // called at the begining of this action
-    public override bool PrePerform()
+    public override bool EnterAction()
     {
-        target = objToRunTOwards;
-        if (target == null)
+        gameObjTarget = objToRunTOwards;
+        if (gameObjTarget == null)
         {
             return false;
         }
@@ -19,7 +19,7 @@ public class Run : Action
     }
 
     // On exiting the state
-    public override bool PostPerform()
+    public override bool ExitAction()
     {
         Debug.Log("ran away");
         return true;

@@ -11,9 +11,9 @@ public class UpdateWorld : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        Dictionary<string, int> worldstates = World.Instance.GetWorld().Getstates();
+        Dictionary<string, WorldState> worldstates = World.Instance.Getstates();
         states.text = "";
-        foreach(KeyValuePair<string, int> s in worldstates)
+        foreach(KeyValuePair<string, WorldState> s in worldstates)
         {
             states.text += s.Key + ", " + s.Value + "\n";
         }

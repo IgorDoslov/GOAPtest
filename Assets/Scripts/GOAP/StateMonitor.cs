@@ -9,7 +9,7 @@ namespace GOAP
         public string state;
         public float stateStrength;
         public float stateDecayRate;
-        public WorldStates beliefs;
+        public Dictionary<string, WorldState> beliefs;
         public GameObject resourcePrefab;
         public string queueName;
         public string worldState;
@@ -34,7 +34,7 @@ namespace GOAP
                 stateStrength = initialStrength;
             }
 
-            if (!stateFound && beliefs.HasState(state))
+            if (!stateFound && HasState(state))
                 stateFound = true;
 
             if (stateFound)
@@ -46,11 +46,52 @@ namespace GOAP
                     GameObject p = Instantiate(resourcePrefab, location, resourcePrefab.transform.rotation);
                     stateFound = false; // restart if needed
                     stateStrength = initialStrength;
-                    beliefs.RemoveState(state);
+                    RemoveState(state);
                     World.Instance.GetQueue(queueName).AddResource(p);
-                    World.Instance.GetWorld().ModifyState(worldState, 1);
+                    World.Instance.ModifyState(worldState, 1);
                 }
             }
+        }
+
+        public bool HasState(string key)
+        {
+            return beliefs.ContainsKey(key);
+        }
+
+        void AddState(string key, int value)
+        {
+            beliefs.Add(key, new WorldState(key, value));
+        }
+
+        public void AddBeliefState(string key)
+        {
+            beliefs.Add(key, new WorldState(key, 0));
+        }
+
+        public void ModifyState(string key, int value)
+        {
+            if (beliefs.ContainsKey(key))
+            {
+                beliefs[key].value += value; // modify the value of that state by the amount in value
+                if (beliefs[key].value <= 0) // if the state has no values left, remove it
+                    RemoveState(key);
+            }
+            else
+                beliefs.Add(key, new WorldState(key, value)); // if state doesn't exist then add it
+        }
+
+        public void RemoveState(string key)
+        {
+            if (beliefs.ContainsKey(key))
+                beliefs.Remove(key);
+        }
+
+        public void SetState(string key, int value)
+        {
+            if (beliefs.ContainsKey(key))
+                beliefs[key].value = value;
+            else
+                beliefs.Add(key, new WorldState(key, value));
         }
     }
 }

@@ -5,16 +5,18 @@ using GOAP;
 
 public class GoToWaitingRoom : Action
 {
-    public override bool PrePerform()
+    public override bool EnterAction()
     {
         return true;
     }
 
-    public override bool PostPerform()
+    public override bool ExitAction()
     {
-        World.Instance.GetWorld().ModifyState("Waiting", 1);
+        World.Instance.ModifyState("Waiting", 1);
         World.Instance.GetQueue("patients").AddResource(gameObject);
-        beliefs.ModifyState("atHospital", 1);
+        if (beliefs.TryGetValue("atHospital", out WorldState state))
+            state.value += 1;
+        //beliefs.ModifyState("atHospital", 1);
         return true;
     }
 }

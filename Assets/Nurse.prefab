@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 1662618654}
   m_Layer: 0
   m_Name: Nurse
-  m_TagString: Untagged
+  m_TagString: Nurse
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -146,7 +146,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: Get Patient
   cost: 1
-  target: {fileID: 0}
+  gameObjTarget: {fileID: 0}
+  vec3Destination: {x: 0, y: 0, z: 0}
   targetTag: 
   duration: 0
   preConditions:
@@ -173,7 +174,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: Go To Cubicle
   cost: 1
-  target: {fileID: 0}
+  gameObjTarget: {fileID: 0}
+  vec3Destination: {x: 0, y: 0, z: 0}
   targetTag: 
   duration: 0
   preConditions:
@@ -220,7 +222,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: Rest
   cost: 1
-  target: {fileID: 0}
+  gameObjTarget: {fileID: 0}
+  vec3Destination: {x: 0, y: 0, z: 0}
   targetTag: Lounge
   duration: 3
   preConditions:
@@ -245,7 +248,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionName: Go To Toilet
   cost: 1
-  target: {fileID: 0}
+  gameObjTarget: {fileID: 0}
+  vec3Destination: {x: 0, y: 0, z: 0}
   targetTag: Toilet
   duration: 5
   preConditions:

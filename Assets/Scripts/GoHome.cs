@@ -5,16 +5,17 @@ using GOAP;
 
 public class GoHome : Action
 {
-    public override bool PrePerform()
+    public override bool EnterAction()
     {
-        beliefs.RemoveState("atHospital");
+
+        beliefs.Remove("atHospital");
 
         return true;
     }
 
-    public override bool PostPerform()
+    public override bool ExitAction()
     {
-        Destroy(this.gameObject, 1);
+        Destroy(gameObject, 1);
         return true;
     }
 }

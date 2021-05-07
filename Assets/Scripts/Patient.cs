@@ -20,7 +20,8 @@ public class Patient : Agent
 
     void NeedRelief()
     {
-        beliefs.ModifyState("busting", 0);
+        if (!beliefs.ContainsKey("busting"))
+            beliefs.Add("busting", new WorldState("busting", 0));
         Invoke("NeedRelief", Random.Range(2, 5));
     }
 }

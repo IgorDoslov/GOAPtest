@@ -1,107 +1,152 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
+using System;
 
 namespace GOAP
 {
-    public class ResourceQueue
+    [System.Serializable]
+    public class WorldState
     {
-        public Queue<GameObject> queue = new Queue<GameObject>();
-        public string tag;
-        public string modState;
+        public string key;
+        public int value;
 
-        public ResourceQueue(string a_tag, string a_modState, WorldStates a_worldStates)
+        public WorldState(string key, int value)
         {
-            tag = a_tag;
-            modState = a_modState;
-            if (tag != "")
-            {
-                GameObject[] resources = GameObject.FindGameObjectsWithTag(tag);
-                foreach (GameObject r in resources)
-                {
-                    queue.Enqueue(r);
-                }
+            this.key = key;
+            this.value = value;
+        }
 
-                if (modState != "")
+        public void ModifyState(int value)
+        {
+            this.value += value;
+        }
+    }
+
+    [ExecuteAlways]
+    public class World : Singleton<World>
+    {
+        public Dictionary<string, WorldState> states = new Dictionary<string, WorldState>();
+
+        private void Update()
+        {
+            //if (UnityEditor)
+            if (resourceQueues != null ) 
+            {
+                foreach (ResourceQueue item in resourceQueues)
                 {
-                    a_worldStates.ModifyState(modState, queue.Count);
+                    item.gameObjectsWithTag = new List<GameObject>(FindAllGameObjectsWithTag(item.tag));
+                    
                 }
             }
         }
 
-        public void AddResource(GameObject a_resource)
+        //private readonly World instance;// = new World();
+        private Dictionary<string, WorldState> worldSt = new Dictionary<string, WorldState>();
+        private ResourceQueue patients;
+        private ResourceQueue cubicles;
+        private ResourceQueue offices;
+        private ResourceQueue toilets;
+        private ResourceQueue wees;
+        private ResourceQueue poos;
+        public Dictionary<string, ResourceQueue> resources = new Dictionary<string, ResourceQueue>();
+        
+        public ResourceQueue[] resourceQueues;
+
+        public void Awake()
         {
-            queue.Enqueue(a_resource);
-        }
+           // worldSt = new WorldStates();
+            //patients = ResourceQueue.create("Patient", "", worldSt, FindAllGameObjectsWithTag("Patient"));
+            //resources.Add("patients", patients);
 
-        public void RemoveResource(GameObject a_resource)
-        {
-            // create a new queue and copy over values from the old queue, but leave out a_resource so we can remove it
-            queue = new Queue<GameObject>(queue.Where(p => p != a_resource));
-        }
+            //cubicles = ResourceQueue.create("Cubicle", "FreeCubicle", worldSt, FindAllGameObjectsWithTag("Cubicle"));
+            //resources.Add("cubicles", cubicles);
 
-        public GameObject RemoveResource()
-        {
-            if (queue.Count == 0) return null;
-            return queue.Dequeue();
-        }
-    }
+            //offices = ResourceQueue.create("Office", "FreeOffice", worldSt, FindAllGameObjectsWithTag("Office"));
+            //resources.Add("offices", offices);
 
-    public sealed class World
-    {
-        private static readonly World instance = new World();
-        private static WorldStates worldSt;
-        private static ResourceQueue patients;
-        private static ResourceQueue cubicles;
-        private static ResourceQueue offices;
-        private static ResourceQueue toilets;
-        private static ResourceQueue wees;
-        private static ResourceQueue poos;
-        private static Dictionary<string, ResourceQueue> resources = new Dictionary<string, ResourceQueue>();
+            //toilets = ResourceQueue.create("Toilet", "FreeToilet", worldSt, FindAllGameObjectsWithTag("Toilet"));
+            //resources.Add("toilets", toilets);
 
-        static World()
-        {
-            worldSt = new WorldStates();
-            patients = new ResourceQueue("", "", worldSt);
-            resources.Add("patients", patients);
+            //wees = ResourceQueue.create("Wee", "FreeWee", worldSt, FindAllGameObjectsWithTag("Wee"));
+            //resources.Add("wees", wees);
 
-            cubicles = new ResourceQueue("Cubicle", "FreeCubicle", worldSt);
-            resources.Add("cubicles", cubicles);
-
-            offices = new ResourceQueue("Office", "FreeOffice", worldSt);
-            resources.Add("offices", offices);
-
-            toilets = new ResourceQueue("Toilet", "FreeToilet", worldSt);
-            resources.Add("toilets", toilets);
-
-            wees = new ResourceQueue("Wee", "FreeWee", worldSt);
-            resources.Add("wees", wees);
-
-            poos = new ResourceQueue("Poo", "FreePoo", worldSt);
-            resources.Add("poos", poos);
+            //poos = ResourceQueue.create("Poo", "FreePoo", worldSt, FindAllGameObjectsWithTag("Poo"));
+            //resources.Add("poos", poos);
 
             Time.timeScale = 5;
         }
 
+        
+
         public ResourceQueue GetQueue(string type)
         {
-            return resources[type];
+            //if (resources.TryGetValue(type, out ResourceQueue rq))
+            //    return rq;
+            //else
+            ////return resources[type];
+            //return null;
+            Predicate<ResourceQueue> checker = new Predicate<ResourceQueue>((ResourceQueue queue) => { return queue.tag == type; });
+            return Array.Find(resourceQueues, checker );
         }
 
-        private World()
-        { }
-
-
-        public static World Instance
+        //private World()
+        //{ }
+        public GameObject[] FindAllGameObjectsWithTag(string tag)
         {
-            get { return instance; }
+            return GameObject.FindGameObjectsWithTag(tag);
         }
 
-        public WorldStates GetWorld()
+        //public static World Instance
+        //{
+        //    get { return instance; }
+        //}
+
+
+        public bool HasState(string key)
         {
-            return worldSt;
+            return states.ContainsKey(key);
         }
 
+        void AddState(string key, int value)
+        {
+            states.Add(key, new WorldState(key,value));
+        }
+
+        public void AddBeliefState(string key)
+        {
+            states.Add(key, new WorldState(key, 0));
+        }
+
+        public void ModifyState(string key, int value)
+        {
+            if (states.ContainsKey(key))
+            {
+                states[key].value += value; // modify the value of that state by the amount in value
+                if (states[key].value <= 0) // if the state has no values left, remove it
+                    RemoveState(key);
+            }
+            else
+                states.Add(key, new WorldState(key, value)); // if state doesn't exist then add it
+        }
+
+        public void RemoveState(string key)
+        {
+            if (states.ContainsKey(key))
+                states.Remove(key);
+        }
+
+        public void SetState(string key, int value)
+        {
+            if (states.ContainsKey(key))
+                states[key].value = value;
+            else
+                states.Add(key, new WorldState(key, value));
+        }
+
+        public Dictionary<string, WorldState> Getstates()
+        {
+            return states;
+        }
     }
 }

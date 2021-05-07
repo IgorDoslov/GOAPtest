@@ -6,21 +6,21 @@ using GOAP;
 
 public class GoResearch : Action
 {
-    public override bool PrePerform()
+    public override bool EnterAction()
     {
-        target = World.Instance.GetQueue("offices").RemoveResource();
-        if (target == null)
+        gameObjTarget = World.Instance.GetQueue("offices").RemoveResource();
+        if (gameObjTarget == null)
             return false;
-        inventory.AddItem(target);
-        World.Instance.GetWorld().ModifyState("FreeOffice", -1);
+        inventory.AddItem(gameObjTarget);
+        World.Instance.ModifyState("FreeOffice", -1);
         return true;
     }
 
-    public override bool PostPerform()
+    public override bool ExitAction()
     {
-        World.Instance.GetQueue("offices").AddResource(target);
-        inventory.RemoveItem(target);
-        World.Instance.GetWorld().ModifyState("FreeOffice", 1);
+        World.Instance.GetQueue("offices").AddResource(gameObjTarget);
+        inventory.RemoveItem(gameObjTarget);
+        World.Instance.ModifyState("FreeOffice", 1);
         return true;
     }
 }

@@ -16,13 +16,15 @@ public class Doctor : Agent
 
     void GetTired()
     {
-        beliefs.ModifyState("exhausted", 0);
+        if (!beliefs.ContainsKey("exhausted"))
+            beliefs.Add("exhausted", new WorldState("exhausted", 0));
         Invoke("GetTired", Random.Range(10, 20));
     }
 
     void NeedRelief()
     {
-        beliefs.ModifyState("busting", 0);
+        if (!beliefs.ContainsKey("busting"))
+            beliefs.Add("busting", new WorldState("busting", 0));
         Invoke("NeedRelief", Random.Range(2, 5));
     }
 
@@ -35,12 +37,12 @@ public class Doctor : Agent
         if (dist <= 5f)
         {
             StopAction();
-            if(!beliefs.HasState("Run"))
-            beliefs.AddBeliefState("Run");
+            if (!beliefs.ContainsKey("Run"))
+                beliefs.Add("Run", new WorldState("Run", 0));
         }
         else
         {
-            beliefs.RemoveState("Run");
+            beliefs.Remove("Run");
         }
     }
 }
